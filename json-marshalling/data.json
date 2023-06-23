@@ -1,0 +1,6 @@
+{
+    "name": "Adam",
+    "age": 30,
+    "is_programmer": false,
+    "favorites": ["go", "js"]
+}
