@@ -12,8 +12,8 @@ import (
 
 func main() {
 	// We're going to select across two channels
-	ch1 = make(chan string)
-	ch2 = make(chan string)
+	ch1 := make(chan string)
+	ch2 := make(chan string)
 
 	// Each channel will receive a value after some amount of time, simulating
 	// blocking I/O (or RPC) operations executing concurrently
