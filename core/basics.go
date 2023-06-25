@@ -2,6 +2,15 @@ package main
 
 import "fmt"
 
+var (
+	firstName        string = "Adam"
+	lastName                = "Smith"
+	hisWife                 = "Eve"
+	adamAge, johnAge        = 39, 34
+)
+
+const daysInYear = 365
+
 func main() {
 	// Strings can be concatenated using + operator
 	fmt.Println("\"g\" + \"o\" => " + "\"g" + "o\"")
@@ -21,4 +30,8 @@ func main() {
 	// Same extra space char as numerical values
 	fmt.Println("true || false =>", true || false)
 	fmt.Println("!true =>", !true)
+
+	fmt.Println("His name was", firstName, lastName)
+	fmt.Println("He was", adamAge-johnAge, "years older than his wife", hisWife)
+	fmt.Println("That means", (adamAge-johnAge)*daysInYear, "days older!")
 }

@@ -124,7 +124,57 @@ func structEmbedding() {
 	fmt.Println("describer:", d.describe())
 }
 
+type product struct {
+	title string
+	stock int
+	price int
+}
+
+func demoStructsInSlices() {
+	// This is shortcode/helper
+	var header func(string, int) = func(str string, depth int) {
+		var heading string
+		for i := 0; i < depth; i++ {
+			heading += "#"
+		}
+		fmt.Printf("\n%s %s\n", heading, str)
+	}
+
+	// Our inventory
+	var inventory = []product{
+		{title: "laptop", price: 1000, stock: 5},
+		{title: "tablet", price: 800, stock: 10},
+		{title: "phone", price: 540, stock: 13},
+	}
+
+	// Declare and calculate some statistics
+	var inventoryCount int = 0
+	var inventoryValue int = 0
+	for _, product := range inventory {
+		inventoryCount += product.stock
+		inventoryValue += product.price * product.stock
+	}
+
+	// Display the stuff
+	header("Inventory", 3)
+
+	header("Dump", 2)
+	fmt.Println(inventory)
+
+	header("Listing", 2)
+	fmt.Println("No.  Title\tPrice\tStock")
+	for i, product := range inventory {
+		fmt.Printf("%2d   %s\t%d\t%d\n",
+			i, product.title, product.price, product.stock)
+	}
+
+	header("Statistics", 2)
+	fmt.Println("Inventory count:", inventoryCount)
+	fmt.Println("Inventory value:", inventoryValue)
+}
+
 func main() {
 	//structBasics()
-	structEmbedding()
+	//structEmbedding()
+	demoStructsInSlices()
 }
