@@ -17,7 +17,7 @@ func demoBasic() {
 	// 'channel <- ' syntax is used for sending values to a channel
 	go func() { messages <- "ping" }()
 
-	// Recive the value from messages channel
+	// Receive the value from messages channel
 	// '<-channel' syntax is used for receiving values from a channel
 	msg := <-messages
 
@@ -37,7 +37,7 @@ func demoChannelBuffering() {
 	// Make a string channel buffered up to 2 values
 	messages := make(chan string, 2)
 
-	// Since the channel is buffered, we can sen values into it without a
+	// Since the channel is buffered, we can send values into it without a
 	// corresponding concurrent receive
 	messages <- "buffered"
 	messages <- "channel"
