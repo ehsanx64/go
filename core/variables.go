@@ -2,6 +2,18 @@ package main
 
 import "fmt"
 
+// Demonstrate type based (automatic) default value assignment
+func demoDefaultValues() {
+	// Define some variables with no initial values
+	var (
+		boolVal bool
+		intVal  int
+	)
+
+	fmt.Println("boolVal:", boolVal)
+	fmt.Println("intVal:", intVal)
+}
+
 func main() {
 	// Define and initialize a variable so the 'var' can infer its type
 	var a = "initial"
@@ -23,4 +35,6 @@ func main() {
 	// default initialization value which for int type is 0
 	var e int
 	fmt.Println("e =>", e)
+
+	demoDefaultValues()
 }
