@@ -18,10 +18,15 @@ func main() {
 	// Dump the map
 	fmt.Println("map:", m)
 
-	// Put value of k1 into new array v1
+	// Put value of k1 into new variable v1
 	v1 := m["k1"]
 	fmt.Println("v1:", v1)
 	fmt.Println("len:", len(m))
+
+	// Trying to access a non-existing key returns the default value for its type
+	// In this case (map[string]int) the default value for int is zero so the v2
+	v2 := m["k3"]
+	fmt.Println("v2:", v2)
 
 	// Delete k2 key and its value
 	delete(m, "k2")
