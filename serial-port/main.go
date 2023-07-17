@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	defaultPort = "COM39"
+	defaultPort = "/dev/ttyUSB0"
 )
 
 func nodemcuComm() {
@@ -55,6 +55,47 @@ func nodemcuComm() {
 	}
 }
 
+func punyforthComm() {
+	buffer := make([]byte, 100)
+	commands := map[string]string{
+		"hello_world": "cr println: \"Hello world!!!\" \n\r",
+		"simple_arith": `
+			25 2 * 3 * print: "Result: " . cr
+		` + " \n\r",
+	}
+
+	mode := &serial.Mode{
+		BaudRate: 115200,
+		Parity:   serial.NoParity,
+		DataBits: 8,
+		StopBits: serial.OneStopBit,
+	}
+
+	port, err := serial.Open(defaultPort, mode)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer port.Close()
+
+	fmt.Println("Port", defaultPort, "is opened")
+
+	// port.Write requires a []byte so cast the string
+	readBytes, err := port.Write([]byte(commands["simple_arith"]))
+	if err != nil {
+		fmt.Println("Error writing:", err)
+	} else {
+		fmt.Println("Wrote", readBytes, "bytes")
+	}
+
+	for {
+		count, err := port.Read(buffer)
+		if err != nil {
+			fmt.Println("Error reading:", err)
+		} else if count != 0 {
+			fmt.Println(">>>", string(buffer[:count]))
+		}
+	}
+}
 func main() {
 	var defaultPortFound bool = false
 
@@ -85,7 +126,8 @@ func main() {
 	}
 
 	if defaultPortFound {
-		nodemcuComm()
+		//nodemcuComm()
+		punyforthComm()
 	} else {
 		fmt.Println("Default port not found. Exiting...")
 	}
