@@ -26,10 +26,10 @@ func print() {
 
 /*
 ** Following two functions are almost the same, but introduction of := instead
-** of = in demoLocal function identified the a as a local variable withing the
+** of = in demoLocal function identifies the a as a local variable within the
 ** function so the assignment won't affect the a variable in global scope.
 **
-** It can be a source of errors, so watch out
+** It can be a source of errors, so watch out!!!
  */
 
 func demoLocal() {
