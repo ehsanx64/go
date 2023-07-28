@@ -87,6 +87,42 @@ func demoChannelDirections() {
 	fmt.Println(<-pongs)
 }
 
+func demoTimeout() {
+	// Create a buffered (nonblocking) channel and let a goroutine send a
+	// message after 2 seconds of delay
+	c1 := make(chan string, 1)
+	go func() {
+		time.Sleep(2 * time.Second)
+		c1 <- "result 1"
+	}()
+
+	// Timeout (<-time.After case) executes eariler
+	select {
+	case res := <-c1:
+		fmt.Println(res)
+	case <-time.After(1 * time.Second):
+		fmt.Println("timeout 1")
+	}
+
+	// Since following goroutine runs concurrently with the previous one, it
+	// will execute one second after it, and one second eariler than the
+	// following timeout
+	c2 := make(chan string, 1)
+	go func() {
+		time.Sleep(2 * time.Second)
+		c2 <- "result 2"
+	}()
+
+	// Timeout is in 3 seconds but goroutine outputs to channel in 2 seconds so
+	// output of following select is the channel's message not the timeout msg.
+	select {
+	case res := <-c2:
+		fmt.Println(res)
+	case <-time.After(3 * time.Second):
+		fmt.Println("timeout 2")
+	}
+}
+
 // The ping function only accepts a channel for sending values. Trying to receive
 // on the channel would cause a compile-time error.
 func ping(pings chan<- string, msg string) {
@@ -111,5 +147,8 @@ func main() {
 	//demoChannelSynchronization()
 
 	// Channel directions demo
-	demoChannelDirections()
+	//demoChannelDirections()
+
+	// Timeout demo
+	demoTimeout()
 }
