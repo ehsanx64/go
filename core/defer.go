@@ -107,10 +107,33 @@ func deferredSleeps() {
 
 }
 
+func deferredWierdAlpha() (input int) {
+	// This is the default
+	input = 3
+
+	defer func() {
+		fmt.Println("Inside")
+		//input = 5
+	}()
+
+	fmt.Println("Outside")
+	return
+}
+
+func deferredWierd() (input int) {
+	defer func() {
+		input = 5
+	}()
+
+	return 0
+}
+
 func main() {
 	//demoDeferOrder()
-
 	//deferredStateChange()
+	//deferredSleeps()
 
-	deferredSleeps()
+	// Wierdoz
+	fmt.Println("Wierd deffer:", deferredWierd())
+	fmt.Println("AlphaWierd deffer:", deferredWierdAlpha())
 }
