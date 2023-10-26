@@ -37,8 +37,22 @@ func stringToByteArray() {
 	fmt.Printf("* []byte: %+v\n", data)
 }
 
+/*
+** Convert a string to unicode code point array
+ */
+func stringToRuneArray() {
+	fmt.Println()
+	fmt.Println("** Converting string to []rune")
+
+	str := "I Love to Go"
+	runes := []rune(str)
+	fmt.Printf("* String: %s\n", str)
+	fmt.Printf("* []rune: %+v\n", runes)
+}
+
 func main() {
 	fmt.Println("*** Conversions")
 	byteArrayToUint16()
 	stringToByteArray()
+	stringToRuneArray()
 }
