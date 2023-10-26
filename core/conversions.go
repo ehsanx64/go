@@ -24,7 +24,21 @@ func byteArrayToUint16() {
 	fmt.Println("Value:", value)
 }
 
+/*
+** Convert a string to byte array
+ */
+func stringToByteArray() {
+	fmt.Println()
+	fmt.Println("** Converting string to []byte")
+
+	str := "I Love to Go"
+	data := []byte(str)
+	fmt.Printf("* String: %s\n", str)
+	fmt.Printf("* []byte: %+v\n", data)
+}
+
 func main() {
 	fmt.Println("*** Conversions")
 	byteArrayToUint16()
+	stringToByteArray()
 }
