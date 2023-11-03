@@ -7,7 +7,7 @@ import (
 
 func main() {
 	i := 4
-	// Unlike fmt.Println() does not add extra space
+	// Unlike fmt.Println(), fmt.Print() does not add extra space
 	fmt.Print("Write ", i, " as ")
 
 	// Basic usage with numerics. Switch can have no 'default' so if the 'i'
@@ -57,4 +57,15 @@ func main() {
 	whatAmI(true)
 	whatAmI(1)
 	whatAmI("hey")
+
+	// Switching on strings
+	color := "gree"
+	switch color {
+	case "red", "pink":
+		fmt.Println("Color was red or pink")
+	case "green":
+		fmt.Println("Color was green")
+	default:
+		fmt.Println("Unsupported color:", color)
+	}
 }

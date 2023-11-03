@@ -20,9 +20,21 @@ func plusPlus(a, b, c int) int {
 	return a + b + c
 }
 
-// Define a function named that returns two ints.
+// Define a function to swap and return parameters
+func swap(a, b int) (int, int) {
+	return b, a
+}
+
+// Define a function named vals() that returns two ints.
 func vals() (int, int) {
 	return 3, 7
+}
+
+// Split an int, empty return
+func split(sum int) (x, y int) {
+	x = sum * 4 / 9
+	y = sum - x
+	return
 }
 
 // sum() function takes an arbitrary number of int and return their sum.
@@ -52,6 +64,7 @@ func main() {
 
 	res = plusPlus(1, 2, 3)
 	fmt.Println("1 + 2 + 3 = ", res)
+	fmt.Println()
 
 	// Get the function retvals and put them in two variables using multiple
 	// assigment. Here a contains 3 and b contains 7
@@ -63,14 +76,29 @@ func main() {
 	// the blank identifier (_) to ignore unwanted values
 	_, c := vals()
 	fmt.Println("c:", c)
+	fmt.Println()
 
 	fmt.Println("sum1:", sum(1, 2))
 	fmt.Println("sum2:", sum(1, 2, 3))
+	fmt.Println()
+
+	x, y := 1, 2
+	fmt.Println("x,y:", x, y)
+	x, y = swap(x, y)
+	fmt.Println("swap(x,y):", x, y)
+	x, y = swap(swap(x, y))
+	fmt.Println("swap(swap(x,y)):", x, y)
+	t, u := 4, 5
+	fmt.Println("t,u:", t, u)
+	p, q := swap(t, u)
+	fmt.Println("p,q:", p, q)
+	fmt.Println()
 
 	nums := []int{1, 2, 3, 4}
 	// If we needed to (for example) feed an array to a variadic function.
 	// array name must be prefixed with '...' (to unpack the array I guess)
 	fmt.Println("sum3:", sum(nums...))
+	fmt.Println()
 
 	nextInt := intSeq()
 	fmt.Println("1st:", nextInt())
@@ -81,4 +109,10 @@ func main() {
 	// A new function call, resets the counter
 	newInts := intSeq()
 	fmt.Println("again:", newInts())
+	fmt.Println()
+
+	number := 17
+	fmt.Println("number:", number)
+	fmt.Print("split(number): ")
+	fmt.Println(split(number))
 }

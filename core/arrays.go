@@ -56,11 +56,16 @@ func demoDotsOperator() {
 	}
 
 	// Dump the array
-	fmt.Println(items)
+	fmt.Println("Items list:", items)
+	fmt.Println("Items size:", len(items))
 }
 
 func main() {
 	demoBasic()
+	fmt.Println()
+
 	demo2dArray()
+	fmt.Println()
+
 	demoDotsOperator()
 }

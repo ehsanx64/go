@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"math"
 	"os"
 )
 
@@ -50,9 +51,20 @@ func stringToRuneArray() {
 	fmt.Printf("* []rune: %+v\n", runes)
 }
 
+func demoTypeConversions() {
+	fmt.Println()
+	fmt.Println("** Type conversions")
+
+	var x, y int = 3, 4
+	var f float64 = math.Sqrt(float64(x*x + y*y))
+	var z uint = uint(f)
+	fmt.Println("x, y, f, z =>", x, y, f, z)
+}
+
 func main() {
 	fmt.Println("*** Conversions")
 	byteArrayToUint16()
 	stringToByteArray()
 	stringToRuneArray()
+	demoTypeConversions()
 }

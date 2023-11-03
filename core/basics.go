@@ -30,6 +30,7 @@ func main() {
 	// Same extra space char as numerical values
 	fmt.Println("true || false =>", true || false)
 	fmt.Println("!true =>", !true)
+	fmt.Println("!!true =>", !!true)
 
 	fmt.Println("His name was", firstName, lastName)
 	fmt.Println("He was", adamAge-johnAge, "years older than his wife", hisWife)

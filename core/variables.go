@@ -12,6 +12,17 @@ func demoDefaultValues() {
 
 	fmt.Println("boolVal:", boolVal)
 	fmt.Println("intVal:", intVal)
+
+	var javascript, python, java bool
+	var i, j int
+	var k1 rune
+	var k2 rune = 'b'
+	var s1, s2, s3 string = "", "*", "..."
+
+	fmt.Println("javascript, python, java =>", javascript, python, java)
+	fmt.Println("i, j =>", i, j)
+	fmt.Println("k1, k2 =>", k1, k2)
+	fmt.Println("s1=\"\", s1=\"*\", s1=\"...\" =>", s1, s2, s3)
 }
 
 func main() {

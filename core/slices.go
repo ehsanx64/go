@@ -39,7 +39,7 @@ func main() {
 	l := s[2:5]
 	fmt.Println("sl1:", l)
 
-	// Slice frow first to end of slice (0 to 5 - excluding 5)
+	// Slice from first to end of slice (0 to 5 - excluding 5)
 	l = s[:5]
 	fmt.Println("sl2:", l)
 
@@ -53,8 +53,8 @@ func main() {
 
 	// Slices can be composed into multi-dimensional structures like arrays.
 	// Unlike arrays the inner slices length can vary.
-	twoD := make([][]int, 3)
-	for i := 0; i < 3; i++ {
+	twoD := make([][]int, 5)
+	for i := 0; i < 5; i++ {
 		innerLen := i + 1
 		twoD[i] = make([]int, innerLen)
 		for j := 0; j < innerLen; j++ {
