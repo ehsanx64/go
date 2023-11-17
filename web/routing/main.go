@@ -35,6 +35,10 @@ func DeleteBook(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Title: %s\n", vars["title"])
 }
 
+func ListBooks(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Listing books...\n")
+}
+
 func main() {
 	r := mux.NewRouter()
 
@@ -46,11 +50,13 @@ func main() {
 		fmt.Fprintf(w, "You've requested the book: %s on page %s\n", title, page)
 	})
 
-	// Books handlers (http verbs)
-	r.HandleFunc("/books/{title}", GetBook).Methods("GET")
-	r.HandleFunc("/books/{title}", AddBook).Methods("POST")
-	r.HandleFunc("/books/{title}", UpdateBook).Methods("PUT")
-	r.HandleFunc("/books/{title}", DeleteBook).Methods("DELETE")
+	// Books path prefix and subrouter
+	bookRouter := r.PathPrefix("/books").Subrouter()
+	bookRouter.HandleFunc("/", ListBooks).Methods("GET")
+	bookRouter.HandleFunc("/{title}", GetBook).Methods("GET")
+	bookRouter.HandleFunc("/{title}", AddBook).Methods("POST")
+	bookRouter.HandleFunc("/{title}", UpdateBook).Methods("PUT")
+	bookRouter.HandleFunc("/{title}", DeleteBook).Methods("DELETE")
 
 	http.ListenAndServe(":8080", r)
 }
