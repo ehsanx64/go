@@ -130,7 +130,7 @@ func demoAnyAndUnmarshall() {
 	skills := u["skills"].([]any)
 	dumpValue("Skills", skills)
 	dumpValue("First skill", skills[0])
-	dumpValue("Second skills", skills[1])
+	dumpValue("Second skill", skills[1])
 }
 
 func demoTypeInference() {
