@@ -9,6 +9,15 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+type user struct {
+	id        int
+	username  string
+	password  string
+	createdAt time.Time
+}
+
+var lastUserId int = 0
+
 func createTable(db *sql.DB) {
 	query := `create table users (
 		id int auto_increment,
@@ -68,13 +77,6 @@ func getUserById(db *sql.DB, userId int) {
 }
 
 func getAllUsers(db *sql.DB) {
-	type user struct {
-		id        int
-		username  string
-		password  string
-		createdAt time.Time
-	}
-
 	rows, err := db.Query("select * from users")
 	defer rows.Close()
 
@@ -96,10 +98,26 @@ func getAllUsers(db *sql.DB) {
 	fmt.Println("User records:")
 	for index, user := range users {
 		fmt.Println("Index:", index)
+		fmt.Println("User ID :", user.id)
 		fmt.Println("Username:", user.username)
 		fmt.Println("Password:", user.password)
 		fmt.Println("The Date:", user.createdAt)
 		fmt.Println()
+		lastUserId = user.id
+	}
+}
+
+func deleteLastUser(db *sql.DB) {
+	if lastUserId == 0 {
+		getAllUsers(db)
+	}
+
+	log.Println("Deleting user id:", lastUserId)
+	_, err := db.Exec("delete from users where id = ?", lastUserId)
+	if err != nil {
+		log.Println(err)
+	} else {
+		log.Println("User successfully deleted")
 	}
 }
 
@@ -117,4 +135,5 @@ func main() {
 	insertUser(db)
 	getUserById(db, 1)
 	getAllUsers(db)
+	deleteLastUser(db)
 }
