@@ -1,0 +1,21 @@
+<div class="todo-list">
+    {{define "page-content"}}
+        {{/* Todo List */}}
+
+        {{block "description" .}}{{end}}
+        <ul>
+            {{range .Todos}}
+                {{if .Done}}
+                    <li class="done">{{.Title}}</li>
+                {{else}}
+                    <li>{{.Title}}</li>
+                {{end}}
+            {{end}}
+        </ul>
+    {{end}}
+</div>
+
+
+{{define "description"}}
+<p>List of TODOs</p>
+{{end}}
