@@ -14,7 +14,7 @@ type Person struct {
 	Skills  []string
 }
 
-const personsTpl = "persons.tpl"
+const personsTpl = "persons.tmpl"
 
 // Define a shortcut for quick panics ;)
 func abort(err error) {
