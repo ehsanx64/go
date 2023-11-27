@@ -98,6 +98,12 @@ func main() {
 		"getNameLen": func(name string) string {
 			return fmt.Sprintf("%s is %2d characters long.", name, len(name))
 		},
+		"dec": func(i int) int {
+			if i == 0 {
+				return 0
+			}
+			return i - 1
+		},
 	}
 
 	// Load the template
