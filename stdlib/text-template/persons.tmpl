@@ -4,12 +4,11 @@ Count:      {{. | len}}
 # Listing
 {{/* Minus sign before closing braces means no newlines should be outputed */ -}}
 {{range . -}}
----------------------
-Name:       {{.Name}}
-Age:        {{.Age}}
+--------------------------------------------------------------------------------
+Name:       {{.Name}} (Alias: {{if (eq .Gender "Male")}}Mr {{else}}Miss {{end}}{{.Name}})
+Age:        {{.Age}} {{if (le .Age 1)}}year{{else}}years{{end}}
 Gender:     {{.Gender}}
 Can Hunt:   {{if .CanHunt}}Yes{{else}}No{{end}}
-Skills:     {{range .Skills}}{{.}}, {{else}}Nothing yet!{{end}}
-Nick Name:  {{if (eq .Gender "Male")}}Mr {{else}}Miss {{end}}{{.Name}}
-=====================
+Skills:     ({{.Skills | len}}) {{range .Skills}}{{.}}, {{else}}Nothing yet!{{end}}
+Main Skill: {{if (ne (.Skills | len) 0)}}{{slice .Skills 0 1}}{{else}}Nothing at all!{{end}}
 {{end -}}

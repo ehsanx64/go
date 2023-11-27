@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"os"
 )
@@ -31,21 +30,21 @@ func getPersons() []Person {
 			Age:     30,
 			Gender:  "Male",
 			CanHunt: true,
-			Skills:  []string{"hunting", "foraging"},
+			Skills:  []string{"hunting", "foraging", "building", "loving"},
 		},
 		{
 			Name:    "Eve",
 			Age:     30,
 			Gender:  "Female",
 			CanHunt: false,
-			Skills:  []string{"cooking", "foraging"},
+			Skills:  []string{"cooking", "foraging", "healing", "loving"},
 		},
 		{
 			Name:    "John",
 			Age:     3,
 			Gender:  "Male",
 			CanHunt: false,
-			Skills:  []string{"playing"},
+			Skills:  []string{"playing", "loving"},
 		},
 		{
 			Name:    "Alan",
@@ -68,7 +67,4 @@ func main() {
 	// Feed the data into the template engine
 	err = tpl.Execute(os.Stdout, persons)
 	abort(err)
-
-	// Just for reference
-	fmt.Println(persons)
 }
