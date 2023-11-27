@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"os"
 )
@@ -57,8 +58,50 @@ func getPersons() []Person {
 }
 
 func main() {
+	funcMap := template.FuncMap{
+		"getFormattedSkills": func(skills []string) string {
+			var out string
+			lastIndex := len(skills) - 1
+
+			if lastIndex < 0 {
+				out = "No skills to be listed"
+				return out
+			}
+
+			for i, val := range skills {
+				if lastIndex != i {
+					out += val + ", "
+				} else {
+					out += val
+				}
+			}
+
+			return out
+		},
+		"getMainSkill": func(skills []string) string {
+			if len(skills) == 0 {
+				return "No skill at all!"
+			}
+
+			return skills[0]
+		},
+		"getLastSkill": func(skills []string) string {
+			if len(skills) == 0 {
+				return "No skill at all!"
+			}
+
+			return skills[len(skills)-1]
+		},
+		"addTwo": func(num int) int {
+			return num + 2
+		},
+		"getNameLen": func(name string) string {
+			return fmt.Sprintf("%s is %2d characters long.", name, len(name))
+		},
+	}
+
 	// Load the template
-	tpl, err := template.New(personsTpl).ParseFiles(personsTpl)
+	tpl, err := template.New(personsTpl).Funcs(funcMap).ParseFiles(personsTpl)
 	abort(err)
 
 	// Get the persons data

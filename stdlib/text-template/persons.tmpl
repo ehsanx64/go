@@ -10,5 +10,11 @@ Age:        {{.Age}} {{if (le .Age 1)}}year{{else}}years{{end}}
 Gender:     {{.Gender}}
 Can Hunt:   {{if .CanHunt}}Yes{{else}}No{{end}}
 Skills:     ({{.Skills | len}}) {{range .Skills}}{{.}}, {{else}}Nothing yet!{{end}}
+Skills (f): {{if ((.Skills | len) | ne 0)}}({{.Skills | len}}) {{( .Skills | getFormattedSkills )}}{{end}}
+Skills (F): {{(.Skills | getFormattedSkills)}}
 Main Skill: {{if (ne (.Skills | len) 0)}}{{slice .Skills 0 1}}{{else}}Nothing at all!{{end}}
+Main Skill: {{(.Skills | getMainSkill)}}
+Last Skill: {{(.Skills | getLastSkill)}}
+Age + 2:    {{(.Age | addTwo)}} years
+Name len:   {{(.Name | getNameLen)}}
 {{end -}}
