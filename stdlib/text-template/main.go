@@ -57,8 +57,8 @@ func getPersons() []Person {
 	}
 }
 
-func main() {
-	funcMap := template.FuncMap{
+func getFuncMap() template.FuncMap { // {{{
+	return template.FuncMap{
 		"getFormattedSkills": func(skills []string) string {
 			var out string
 			lastIndex := len(skills) - 1
@@ -105,9 +105,11 @@ func main() {
 			return i - 1
 		},
 	}
+} // }}}
 
+func main() {
 	// Load the template
-	tpl, err := template.New(personsTpl).Funcs(funcMap).ParseFiles(personsTpl)
+	tpl, err := template.New(personsTpl).Funcs(getFuncMap()).ParseFiles(personsTpl)
 	abort(err)
 
 	// Get the persons data

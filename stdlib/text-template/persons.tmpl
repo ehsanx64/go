@@ -20,3 +20,7 @@ Last Skill: {{range (len .Skills | dec | slice .Skills )}}{{.}}{{else}}No last s
 Age + 2:    {{(.Age | addTwo)}} years
 Name len:   {{(.Name | getNameLen)}}
 {{end -}}
+================================================================================
+{{define "a"}}Alpha {{template "b" . }}{{end -}}
+{{define "b"}}Beta{{end -}}
+Hello {{template "a"}} & {{template "b"}}
