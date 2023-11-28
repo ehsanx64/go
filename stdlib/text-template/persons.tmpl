@@ -24,3 +24,8 @@ Name len:   {{(.Name | getNameLen)}}
 {{define "a"}}Alpha {{template "b" . }}{{end -}}
 {{define "b"}}Beta{{end -}}
 Hello {{template "a"}} & {{template "b"}}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+{{define "T1"}}ONE{{end -}}
+{{define "T2"}}TWO{{end -}}
+{{define "T3"}}{{template "T1"}} {{template "T2"}}{{end -}}
+{{template "T3" }}
