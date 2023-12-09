@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	"unicode/utf8"
 )
 
@@ -13,7 +14,8 @@ import (
 ** is an integer that represent a unicode code point.
  */
 
-func main() {
+func demo_Runes() {
+	fmt.Println("*** Runes Demo")
 	const str = "สวัสดี"
 
 	fmt.Println("String:", str)
@@ -59,4 +61,28 @@ func examineRune(r rune) {
 	} else if r == 'ส' {
 		fmt.Println("found so sua")
 	}
+}
+
+func demo_ReplaceAll() {
+	fmt.Printf("\n*** ReplaceAll() Demo\n")
+
+	var s string = "Go is a statically typed, compiled high-level programming language designed at Google"
+
+	fmt.Println("* Original:")
+	fmt.Printf("\t%s\n", s)
+
+	// Replace 'e' characters with #
+	s = strings.ReplaceAll(s, "e", "#")
+	fmt.Println("* Replace all e characters with #")
+	fmt.Printf("\t%s\n", s)
+
+	// Replace '#' characters with '' (remove it)
+	s = strings.ReplaceAll(s, "#", "")
+	fmt.Println("* Replace all # characters with empty string (remove them)")
+	fmt.Printf("\t%s\n", s)
+}
+
+func main() {
+	demo_Runes()
+	demo_ReplaceAll()
 }
