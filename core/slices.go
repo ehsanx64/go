@@ -8,7 +8,8 @@ import "fmt"
 ** uninitialized slice equals to nil and has 0 elements.
  */
 
-func main() {
+func demo_Core() {
+	fmt.Println("*** Core Slice Demo")
 	// Make a slice of string with length of 3
 	s := make([]string, 3)
 	fmt.Println("emp:", s)
@@ -63,4 +64,47 @@ func main() {
 	}
 
 	fmt.Println("2d: ", twoD)
+}
+
+// Join a slice of string using joiner where verbose controls the verbosity
+func joinSlices(list []string, joiner rune, verbose bool) string {
+	var out string
+	maxLen := len(list) - 1
+
+	for i, val := range list {
+		if verbose {
+			fmt.Println(i, ":", val)
+		}
+
+		if maxLen != i {
+			out += val + string(joiner) + " "
+		} else {
+			out += val
+		}
+	}
+
+	return out
+}
+
+// Return the first slice item
+func getFirstItem(list []string) string {
+	return list[0]
+}
+
+// Return the last slice item
+func getLastItem(list []string) string {
+	return list[len(list)-1]
+}
+
+func demo_JoinSlices() {
+	fmt.Printf("\n*** Join Slices Demo\n")
+	words := []string{"one", "two", "three", "four", "five", "six"}
+	fmt.Println("Formatted list:", joinSlices(words, ',', false))
+	fmt.Println("First item:", getFirstItem(words))
+	fmt.Println("Last item:", getLastItem(words))
+}
+
+func main() {
+	demo_Core()
+	demo_JoinSlices()
 }
