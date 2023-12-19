@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -106,7 +105,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	var user User
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		err := errors.New("Error in reading body")
+		err := SetError(err, "Error in reading body")
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(err)
 		return
@@ -117,7 +116,8 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 
 	// Checks if email is already register or not
 	if dbuser.Email != "" {
-		err := errors.New("Email already in use")
+		var err Error
+		err = SetError(err, "Email already in use")
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(err)
 		return
