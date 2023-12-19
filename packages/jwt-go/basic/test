@@ -1,0 +1,99 @@
+#!/bin/bash
+
+USER_TOKEN=./tmp/jwt-user-token
+ADMIN_TOKEN=./tmp/jwt-admin-token
+
+SIGNUP_URL=localhost:8080/signup
+SIGNIN_URL=localhost:8080/signin
+
+SIGNUP_USER='{"name": "User", "email": "user@inc.com", "password": "", "role": "user"}'
+SIGNIN_USER='{"email": "user@inc.com", "password": ""}'
+
+SIGNUP_ADMIN='{"name": "Admin", "email": "admin@inc.com", "password": "", "role": "admin"}'
+SIGNIN_ADMIN='{"email": "admin@inc.com", "password": ""}'
+
+display_help() {
+    echo -e "Available commands:\n"
+
+    echo "signup-user"
+    echo -e "\tSign-up as a user"
+    echo ""
+
+    echo "signin-user"
+    echo -e "\tSign-in as a user"
+    echo ""
+
+    echo "signup-admin"
+    echo -e "\tSign-up as an admin"
+    echo ""
+
+    echo "signin-admin"
+    echo -e "\tSign-in as an admin"
+    echo ""
+
+    echo "admin"
+    echo -e "\tRequest an admin-only url"
+    echo ""
+
+    echo "user"
+    echo -e "\tRequest a user-only url"
+    echo ""
+
+    echo "users"
+    echo -e "\tDisplay users table"
+    echo ""
+
+    echo "delete-users"
+    echo -e "\tDelete all records from users table"
+    echo ""
+}
+
+case "$1" in
+    signup-user)
+        curl -X POST -d "$SIGNUP_USER" $SIGNUP_URL | jq .
+        ;;
+
+    signin-user)
+        curl -X POST -d "$SIGNIN_USER" $SIGNIN_URL | tee $USER_TOKEN | jq .
+        ;;
+
+    signup-admin)
+        curl -X POST -d "$SIGNUP_ADMIN" $SIGNUP_URL | jq .
+        ;;
+
+    signin-admin)
+        curl -X POST -d "$SIGNIN_ADMIN" $SIGNIN_URL | tee $ADMIN_TOKEN | jq .
+        ;;
+
+    admin)
+        if [ ! -f $ADMIN_TOKEN ]; then
+            echo "Admin token file not found, run ./test signin-admin"
+            exit 1
+        fi
+
+        t=$(printf "Token: %s" `cat $ADMIN_TOKEN | jq .token | tr -d \"`)
+        curl -H "$t" localhost:8080/admin
+        ;;
+
+    user)
+        if [ ! -f $USER_TOKEN ]; then
+            echo "User token file not found, run ./test signin-user"
+            exit 1
+        fi
+
+        t=$(printf "Token: %s" `cat $USER_TOKEN | jq .token | tr -d \"`)
+        curl -H "$t" localhost:8080/user
+        ;;
+
+    users)
+        echo "use test; select id,name,email,role from users;" | mysql -u test
+        ;;
+
+    delete-users)
+        echo "use test; delete from users;" | mysql -u test
+        ;;
+
+    * | help)
+        display_help
+        ;;
+esac
