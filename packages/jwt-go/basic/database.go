@@ -16,6 +16,14 @@ const (
 	dbOptions = "charset=utf8mb4&parseTime=True&loc=Local"
 )
 
+type User struct {
+	gorm.Model
+	Name     string `json:"name"`
+	Email    string `gorm:"unique" json:"email"`
+	Password string `json:"password"`
+	Role     string `json:"role"`
+}
+
 func GetDatabase() *gorm.DB {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?%s",
 		dbUser, dbPass, dbHost, dbName, dbOptions)

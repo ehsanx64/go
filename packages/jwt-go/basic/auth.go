@@ -3,9 +3,101 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
+	"time"
+
+	"github.com/golang-jwt/jwt"
+	"golang.org/x/crypto/bcrypt"
 )
+
+type Authentication struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type Token struct {
+	Role        string `json:"role"`
+	Email       string `json:"email"`
+	TokenString string `json:"token"`
+}
+
+// Check whether user is authorized or not
+func IsAuthorized(handler http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Header["Token"] == nil {
+			var err Error
+			err = SetError(err, "No Token Found")
+			json.NewEncoder(w).Encode(err)
+			return
+		}
+
+		var mySigningKey = []byte(secretkey)
+
+		token, err := jwt.Parse(r.Header["Token"][0], func(token *jwt.Token) (interface{}, error) {
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, fmt.Errorf("There was an error in parsing token.")
+			}
+			return mySigningKey, nil
+		})
+
+		if err != nil {
+			var err Error
+			err = SetError(err, "Your Token has been expired.")
+			json.NewEncoder(w).Encode(err)
+			return
+		}
+
+		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+			if claims["role"] == "admin" {
+				r.Header.Set("Role", "admin")
+				handler.ServeHTTP(w, r)
+				return
+
+			} else if claims["role"] == "user" {
+				r.Header.Set("Role", "user")
+				handler.ServeHTTP(w, r)
+				return
+
+			}
+		}
+
+		var reserr Error
+		reserr = SetError(reserr, "Not Authorized.")
+		json.NewEncoder(w).Encode(err)
+	}
+}
+
+func GeneratehashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
+}
+
+// Compare plain password with hash password
+func CheckPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
+}
+
+// Generate JWT token
+func GenerateJWT(email, role string) (string, error) {
+	var mySigningKey = []byte(secretkey)
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["authorized"] = true
+	claims["email"] = email
+	claims["role"] = role
+	claims["exp"] = time.Now().Add(time.Minute * 30).Unix()
+
+	tokenString, err := token.SignedString(mySigningKey)
+	if err != nil {
+		fmt.Errorf("Something went Wrong: %s", err.Error())
+		return "", err
+	}
+
+	return tokenString, nil
+}
 
 func SignUp(w http.ResponseWriter, r *http.Request) {
 	connection := GetDatabase()
@@ -93,24 +185,4 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	token.TokenString = validToken
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(token)
-}
-
-func Index(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("HOME PUBLIC INDEX PAGE"))
-}
-
-func AdminIndex(w http.ResponseWriter, r *http.Request) {
-	if r.Header.Get("Role") != "admin" {
-		w.Write([]byte("Not authorized."))
-		return
-	}
-	w.Write([]byte("Welcome, Admin."))
-}
-
-func UserIndex(w http.ResponseWriter, r *http.Request) {
-	if r.Header.Get("Role") != "user" {
-		w.Write([]byte("Not Authorized."))
-		return
-	}
-	w.Write([]byte("Welcome, User."))
 }
