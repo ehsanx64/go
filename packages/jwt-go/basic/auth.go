@@ -105,7 +105,8 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	var user User
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		err := SetError(err, "Error in reading body")
+		var err Error
+		err = SetError(err, "Error in reading body")
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(err)
 		return
@@ -117,7 +118,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	// Checks if email is already register or not
 	if dbuser.Email != "" {
 		var err Error
-		err = SetError(err, "Email already in use")
+		err = SetError(err, fmt.Sprintf("Email '%s' already in use", user.Email))
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(err)
 		return
