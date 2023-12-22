@@ -2,13 +2,15 @@ package main
 
 import (
 	"bufio"
+	"encoding/hex"
 	"fmt"
 	"io"
 	"os"
 )
 
 const (
-	TextFile = "sample.txt"
+	TextFile   = "sample.txt"
+	BinaryFile = "gopher-plush.jpg"
 )
 
 func check(e error) {
@@ -57,9 +59,11 @@ func seekAndRead() {
 	reader := bufio.NewReader(f)
 	s, err := reader.Peek(4)
 	fmt.Printf("4 bytes: %s\n", s)
+	fmt.Println()
 }
 
-func readFile() {
+func readInChunks() {
+	fmt.Println("# Read in chunks ...")
 	f, err := os.Open(TextFile)
 	check(err)
 	defer f.Close()
@@ -84,8 +88,80 @@ func readFile() {
 	}
 }
 
+func readLineByLine() {
+	var i int = 0
+	fmt.Println()
+	fmt.Println("# Read line by line ...")
+	f, err := os.Open(TextFile)
+	check(err)
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+
+	for scanner.Scan() {
+		i++
+		fmt.Printf("%02d : %s\n", i, scanner.Text())
+	}
+
+	if err := scanner.Err(); err != nil {
+		panic(err)
+	}
+}
+
+func readByWords() {
+	var i int = 0
+	fmt.Println()
+	fmt.Println("# Read by words ...")
+	f, err := os.Open(TextFile)
+	check(err)
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+	scanner.Split(bufio.ScanWords)
+
+	for scanner.Scan() {
+		i++
+		fmt.Printf("(%02d: %s) ", i, scanner.Text())
+	}
+
+	if err := scanner.Err(); err != nil {
+		panic(err)
+	}
+
+	fmt.Println()
+}
+
+func readBinaryFile(readAll bool) {
+	f, err := os.Open(BinaryFile)
+	check(err)
+	defer f.Close()
+
+	reader := bufio.NewReader(f)
+	buf := make([]byte, 256)
+
+	for {
+		_, err := reader.Read(buf)
+		if err != nil {
+			if err != io.EOF {
+				fmt.Println(err)
+			}
+
+			break
+		}
+
+		if !readAll {
+			break
+		}
+	}
+
+	fmt.Printf("%s\n", hex.Dump(buf))
+}
+
 func main() {
 	slurpFile()
 	seekAndRead()
-	readFile()
+	readInChunks()
+	readLineByLine()
+	readByWords()
+	readBinaryFile(false)
 }
