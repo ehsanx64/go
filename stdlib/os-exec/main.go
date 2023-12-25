@@ -75,6 +75,7 @@ func runGforthCode() {
 
 func main() {
 	runMousepad()
+	runShellCommands()
 	runSfCode()
 	runGforthCode()
 }
