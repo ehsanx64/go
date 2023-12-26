@@ -6,7 +6,7 @@
         <ul>
             {{range .Todos}}
                 {{if .Done}}
-                    <li class="done">{{.Title}}</li>
+                    <li class="done">{{.Title}} (done)</li>
                 {{else}}
                     <li>{{.Title}}</li>
                 {{end}}
