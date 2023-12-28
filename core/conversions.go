@@ -4,8 +4,11 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"log"
 	"math"
 	"os"
+	"reflect"
+	"strconv"
 )
 
 // Convert an array of two bytes to a single 16-bit unsigned integer
@@ -51,6 +54,19 @@ func stringToRuneArray() {
 	fmt.Printf("* []rune: %+v\n", runes)
 }
 
+func stringToInt64() {
+	fmt.Println()
+	fmt.Println("** Converting string to int64")
+
+	var s string = "9223372036854775807"
+	i, err := strconv.ParseInt(s, 10, 64)
+	if err != nil {
+		log.Println("stringToInt64()", err)
+	}
+
+	fmt.Printf("Result is %v with type %s.\n", i, reflect.TypeOf(i))
+}
+
 func demoTypeConversions() {
 	fmt.Println()
 	fmt.Println("** Type conversions")
@@ -66,5 +82,6 @@ func main() {
 	byteArrayToUint16()
 	stringToByteArray()
 	stringToRuneArray()
+	stringToInt64()
 	demoTypeConversions()
 }
