@@ -182,7 +182,10 @@ func idBySwitch() {
 }
 
 func idByReflection() {
+	fmt.Println()
+	fmt.Println("* idByReflection()")
 	xType := reflect.TypeOf(x)
 	xValue := reflect.ValueOf(x)
 	fmt.Println(xType, xValue)
+	fmt.Println("Kind:", xValue.Kind())
 }
