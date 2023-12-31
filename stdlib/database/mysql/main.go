@@ -76,6 +76,8 @@ func preparingQueries(db *sql.DB) {
 }
 
 func singleRowQueries(db *sql.DB) {
+	log.Println("Single-row queries example ...")
+
 	var id int = 3
 	var name string
 
@@ -85,6 +87,8 @@ func singleRowQueries(db *sql.DB) {
 }
 
 func preparedSingleRowQueries(db *sql.DB) {
+	log.Println("Single-row prepared queries example ...")
+
 	var id int = 5
 	var name string
 
@@ -96,6 +100,35 @@ func preparedSingleRowQueries(db *sql.DB) {
 	fatality(err)
 
 	log.Println("Name for id", id, "is", name)
+}
+
+func deleteId(db *sql.DB, id int) {
+	log.Println("Delete ID example ...")
+
+	_, err := db.Exec("DELETE FROM person WHERE id = ?", id)
+	fatality(err)
+
+	log.Println("Person with id", id, "has been deleted")
+}
+
+func insertData(db *sql.DB) {
+	log.Println("Insert data example ...")
+
+	stmt, err := db.Prepare("INSERT INTO person (name) VALUES(?)")
+	fatality(err)
+
+	res, err := stmt.Exec("Dolly")
+	fatality(err)
+
+	lastId, err := res.LastInsertId()
+	fatality(err)
+
+	rowCount, err := res.RowsAffected()
+	fatality(err)
+
+	log.Printf("id: %d, affected: %d\n", lastId, rowCount)
+
+	deleteId(db, int(lastId))
 }
 
 func main() {
@@ -116,4 +149,5 @@ func main() {
 	preparingQueries(db)
 	singleRowQueries(db)
 	preparedSingleRowQueries(db)
+	insertData(db)
 }
