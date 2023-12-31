@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -42,11 +43,67 @@ func fetchData(db *sql.DB) {
 	log.Println("Records count:", rowsCount)
 }
 
+func preparingQueries(db *sql.DB) {
+	var (
+		id   int
+		name string
+	)
+
+	log.Println("Preparing queries example ...")
+
+	stmt, err := db.Prepare("select id, name from person where id < ?")
+	fatality(err)
+	defer stmt.Close()
+
+	rows, err := stmt.Query(5)
+	fatality(err)
+	defer rows.Close()
+
+	out := ""
+	for rows.Next() {
+		err := rows.Scan(&id, &name)
+		fatality(err)
+		if out == "" {
+			out += fmt.Sprintf("(%02d: %s)", id, name)
+		} else {
+			out += fmt.Sprintf(", (%02d: %s)", id, name)
+		}
+	}
+	log.Println(out)
+
+	// Always check for errors, even after for rows.Next()
+	fatality(rows.Err())
+}
+
+func singleRowQueries(db *sql.DB) {
+	var id int = 3
+	var name string
+
+	err := db.QueryRow("select name from person where id = ?", 1).Scan(&name)
+	fatality(err)
+	log.Println("Name for id", id, "is", name)
+}
+
+func preparedSingleRowQueries(db *sql.DB) {
+	var id int = 5
+	var name string
+
+	stmt, err := db.Prepare("select name from person where id = ?")
+	fatality(err)
+	defer stmt.Close()
+
+	err = stmt.QueryRow(id).Scan(&name)
+	fatality(err)
+
+	log.Println("Name for id", id, "is", name)
+}
+
 func main() {
 	// Connection are established in a lazy fashion so following line just set
 	// up the connect without openning it
 	db, err := sql.Open("mysql", "root:go-mysql@tcp(127.0.0.1:3306)/main")
 	fatality(err)
+	defer db.Close()
 
 	// any method call on the db (sql.DB) will open up the connection
 	err = db.Ping()
@@ -56,5 +113,7 @@ func main() {
 	log.Println("Database connection established.")
 
 	fetchData(db)
-	defer db.Close()
+	preparingQueries(db)
+	singleRowQueries(db)
+	preparedSingleRowQueries(db)
 }
