@@ -26,7 +26,7 @@ func fetchData(db *sql.DB) {
 
 	log.Println("Trying to fetch person data ...")
 
-	rows, err := db.Query("select * from person")
+	rows, err := db.Query("SELECT * FROM person")
 	fatality(err)
 
 	defer rows.Close()
@@ -51,7 +51,7 @@ func preparingQueries(db *sql.DB) {
 
 	log.Println("Preparing queries example ...")
 
-	stmt, err := db.Prepare("select id, name from person where id < ?")
+	stmt, err := db.Prepare("SELECT id, name FROM person WHERE id < ?")
 	fatality(err)
 	defer stmt.Close()
 
@@ -81,7 +81,7 @@ func singleRowQueries(db *sql.DB) {
 	var id int = 3
 	var name string
 
-	err := db.QueryRow("select name from person where id = ?", 1).Scan(&name)
+	err := db.QueryRow("SELECT name FROM person WHERE id = ?", 1).Scan(&name)
 	fatality(err)
 	log.Println("Name for id", id, "is", name)
 }
@@ -92,7 +92,7 @@ func preparedSingleRowQueries(db *sql.DB) {
 	var id int = 5
 	var name string
 
-	stmt, err := db.Prepare("select name from person where id = ?")
+	stmt, err := db.Prepare("SELECT name FROM person WHERE id = ?")
 	fatality(err)
 	defer stmt.Close()
 
