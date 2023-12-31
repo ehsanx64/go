@@ -15,3 +15,6 @@ mysql-shell:
 
 mysql-client:
 	mysql -h 127.0.0.1 -u root -p
+
+mysql-setup:
+	mysql -h 127.0.0.1 -u root -p < sql/setup.sql

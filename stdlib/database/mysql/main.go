@@ -13,6 +13,9 @@ func fatality(err error) {
 	}
 }
 
+/*
+** Fetch data from the database
+ */
 func fetchData(db *sql.DB) {
 	var (
 		id        int
@@ -31,20 +34,25 @@ func fetchData(db *sql.DB) {
 		rowsCount++
 		err := rows.Scan(&id, &name)
 		fatality(err)
-
 		log.Println(id, name)
 	}
 
-	log.Println("Records count:", rowsCount)
+	// Always check for errors, even after for rows.Next()
 	fatality(rows.Err())
+	log.Println("Records count:", rowsCount)
 }
 
 func main() {
+	// Connection are established in a lazy fashion so following line just set
+	// up the connect without openning it
 	db, err := sql.Open("mysql", "root:go-mysql@tcp(127.0.0.1:3306)/main")
 	fatality(err)
 
+	// any method call on the db (sql.DB) will open up the connection
 	err = db.Ping()
 	fatality(err)
+
+	// If we reach here it means database connection is established
 	log.Println("Database connection established.")
 
 	fetchData(db)
