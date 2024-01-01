@@ -19,12 +19,12 @@ type user struct {
 var lastUserId int = 0
 
 func createTable(db *sql.DB) {
-	query := `create table users (
-		id int auto_increment,
-		username text not null,
-		password text not null,
-		created_at datetime,
-		primary key(id)
+	query := `CREATE TABLE users (
+		id INT AUTO_INCREMENT,
+		username TEXT NOT NULL,
+		password TEXT NOT NULL,
+		created_at DATETIME,
+		PRIMARY KEY(id)
 	);`
 
 	_, err := db.Exec(query)
@@ -36,7 +36,7 @@ func createTable(db *sql.DB) {
 }
 
 func insertUser(db *sql.DB) {
-	query := `insert into users (username, password, created_at) values (?, ?, ?)`
+	query := `INSERT INTO users (username, password, created_at) VALUES (?, ?, ?)`
 
 	username := "adam"
 	password := "pass"
@@ -61,7 +61,7 @@ func getUserById(db *sql.DB, userId int) {
 		createdAt time.Time
 	)
 
-	query := `select * from users where id = ?`
+	query := `SELECT * FROM users WHERE id = ?`
 	err := db.QueryRow(query, 1).Scan(&id, &username, &password, &createdAt)
 	if err != nil {
 		log.Println(err)
@@ -77,7 +77,7 @@ func getUserById(db *sql.DB, userId int) {
 }
 
 func getAllUsers(db *sql.DB) {
-	rows, err := db.Query("select * from users")
+	rows, err := db.Query("SELECT * FROM users")
 	defer rows.Close()
 
 	var users []user
@@ -113,7 +113,7 @@ func deleteLastUser(db *sql.DB) {
 	}
 
 	log.Println("Deleting user id:", lastUserId)
-	_, err := db.Exec("delete from users where id = ?", lastUserId)
+	_, err := db.Exec("DELETE FROM users WHERE id = ?", lastUserId)
 	if err != nil {
 		log.Println(err)
 	} else {
@@ -123,7 +123,7 @@ func deleteLastUser(db *sql.DB) {
 
 func main() {
 	// Open a connection to database
-	db, err := sql.Open("mysql", "goweb:goweb@(127.0.0.1:3306)/goweb?parseTime=true")
+	db, err := sql.Open("mysql", "main:main@(127.0.0.1:3306)/main?parseTime=true")
 	if err != nil {
 		panic(fmt.Sprintf("Error connecting to database: %s", err))
 	} else {
