@@ -1,6 +1,8 @@
 dev:
 	air
+
 run:
 	go run .
-install:
+
+deps:
 	go get -u github.com/gorilla/mux
