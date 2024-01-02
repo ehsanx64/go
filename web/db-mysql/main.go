@@ -19,7 +19,7 @@ type user struct {
 var lastUserId int = 0
 
 func createTable(db *sql.DB) {
-	query := `CREATE TABLE users (
+	query := `CREATE TABLE IF NOT EXISTS users (
 		id INT AUTO_INCREMENT,
 		username TEXT NOT NULL,
 		password TEXT NOT NULL,
