@@ -22,7 +22,11 @@ func demoBasic() {
 
 	// Using braces to declare and initialize the array (in one go)
 	b := [5]int{1, 2, 3, 4, 5}
-	fmt.Println("dcl:", b)
+	fmt.Println("b:", b)
+
+	// Determine the array size by initializer values
+	c := [...]int{1, 2, 3}
+	fmt.Println("c:", c)
 }
 
 func demo2dArray() {
