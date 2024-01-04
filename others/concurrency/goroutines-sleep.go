@@ -6,9 +6,12 @@ import (
 )
 
 func main() {
+	// Run two instance of count function in goroutines
 	go count("sheep")
 	go count("fish")
 
+	// This causes the main function (application) wait for two seconds before
+	// exiting thus, above function calls would be executed for two seconds
 	time.Sleep(time.Second * 2)
 }
 

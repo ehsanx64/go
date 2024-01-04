@@ -6,6 +6,8 @@ import (
 )
 
 func main() {
+	// Following function is executed as a goroutine and keeps the application
+	// running so ultimately both function calls are keep executing simultaneously
 	go count("sheep")
 	count("fish")
 }
