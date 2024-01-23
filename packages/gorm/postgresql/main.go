@@ -7,12 +7,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type Product struct {
-	gorm.Model
-	Code  string
-	Price uint
-}
-
 var db *gorm.DB
 
 func main() {
@@ -25,6 +19,7 @@ func main() {
 
 	// Migrate the schema
 	db.AutoMigrate(&Product{})
+	seedDatabase()
 
 	getCodes := func() ([]string, error) {
 		var products []Product
@@ -39,14 +34,19 @@ func main() {
 		return res, dbres.Error
 	}
 
-	if err := setPrice(2, 150); err != nil {
-		panic(err)
-	}
-	log.Println("Price has been updated")
+	/*
+		if err := setPrice(2, 150); err != nil {
+			panic(err)
+		}
+		log.Println("Price has been updated")
+	*/
 
 	codes, err := getCodes()
 	if err != nil {
 		panic(err)
 	}
 	log.Println("Codes:", codes)
+
+	updateTagsForId(2)
+	initWishlist()
 }

@@ -10,6 +10,7 @@ tidy:
 deps:
 	go get -u gorm.io/gorm
 	go get -u gorm.io/driver/postgres
+	go get github.com/jackc/pgtype
 
 dev-deps:
 	go install github.com/cosmtrek/air@latest
