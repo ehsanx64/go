@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"time"
 
@@ -73,4 +74,28 @@ func userTests(db *gorm.DB) {
 	log.Println("res:", res)
 	log.Println(res.RowsAffected)
 	log.Println(adam)
+
+	// Get how many users with name "Adam" exists using raw sql query
+	var count int
+	db.Raw("select count(*) from users where name = ?", "Adam").Scan(&count)
+	fmt.Println("Count:", count)
+
+	// Get all distinct user names
+	type Name string
+	var names []Name
+	db.Model(&User{}).Distinct("name").Find(&names)
+	fmt.Println("Names:", names)
+
+	// Get all distinct user names
+	var usernames []User
+	res = db.Distinct("name").Find(&usernames)
+	fmt.Print("Usernames: ")
+	for i, user := range usernames {
+		fmt.Print(user.Name)
+		if res.RowsAffected > int64(i+1) {
+			fmt.Print(", ")
+		}
+	}
+	fmt.Println()
+
 }
