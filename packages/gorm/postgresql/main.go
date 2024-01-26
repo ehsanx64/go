@@ -49,4 +49,5 @@ func main() {
 
 	updateTagsForId(2)
 	initWishlist()
+	initReview()
 }
