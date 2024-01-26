@@ -5,7 +5,7 @@ go 1.21.0
 require (
 	github.com/jackc/pgtype v1.14.1
 	gorm.io/driver/postgres v1.5.4
-	gorm.io/gorm v1.25.5
+	gorm.io/gorm v1.25.6
 )
 
 require (
