@@ -16,8 +16,13 @@ type Wishlist struct {
 func initWishlist() {
 	db.AutoMigrate(&Wishlist{})
 
-	w := Wishlist{
-		ProductId: 5,
+	w := []Wishlist{
+		{
+			ProductId: 2,
+		},
+		{
+			ProductId: 3,
+		},
 	}
 
 	db.Create(&w)
@@ -25,7 +30,7 @@ func initWishlist() {
 	var wl Wishlist
 	var tagsJson []interface{}
 	var metaJson map[string]interface{}
-	const productId = 55
+	const productId = 3
 
 	// Select first record with given product id
 	db.Preload("Product").Where("product_id = ?", productId).First(&wl)
