@@ -21,7 +21,7 @@ run-mysql:
 		-e MYSQL_USER=gormuser \
 		-e MYSQL_PASSWORD=gormpass \
 		-v gorm-mysql:/var/lib/mysql \
-		-p 127.0.0.1:3306:3306 mysql:5.7
+		-p 127.0.0.1:3306:3306 mysql:8.4
 
 mysql-shell:
 	docker exec -it gorm-mysql mysql -p
