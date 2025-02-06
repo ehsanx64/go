@@ -1,4 +1,4 @@
-module gorm/play
+module gorm/mysql
 
 go 1.21.0
 
