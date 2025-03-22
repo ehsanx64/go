@@ -67,6 +67,36 @@ func stringToInt64() {
 	fmt.Printf("Result is %v with type %s.\n", i, reflect.TypeOf(i))
 }
 
+func float64ToUint() {
+	fmt.Println()
+	fmt.Println("** Converting float64 value to uint")
+
+	var source float64 = 1
+	var iSource interface{}
+	var result uint
+	var iResult uint
+
+	// Convert the float64 to uint
+	result = uint(source)
+
+	// Set the float64 as the interface value
+	iSource = source
+
+	// Convert the interface to uint
+	iResult = uint(iSource.(float64))
+	fmt.Println("Source:", source)
+	fmt.Printf("%+T: %+v\n", source, source)
+
+	fmt.Println("iSource:", iSource)
+	fmt.Printf("%+T: %+v\n", iSource, iSource)
+
+	fmt.Println("Result:", result)
+	fmt.Printf("%+T: %+v\n", result, result)
+
+	fmt.Println("iResult:", iResult)
+	fmt.Printf("%+T: %+v\n", iResult, iResult)
+}
+
 func demoTypeConversions() {
 	fmt.Println()
 	fmt.Println("** Type conversions")
@@ -83,5 +113,6 @@ func main() {
 	stringToByteArray()
 	stringToRuneArray()
 	stringToInt64()
+	float64ToUint()
 	demoTypeConversions()
 }
