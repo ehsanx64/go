@@ -7,7 +7,25 @@ import "fmt"
 ** tables and so on.
  */
 
-func main() {
+// The error map
+var Errors = map[int]string{
+	1: "Error 1",
+	2: "Error 2",
+}
+
+func getByKey(code int) string {
+	val, ok := Errors[code]
+
+	if ok {
+		return val
+	}
+
+	return ""
+}
+
+func basicUsage() {
+	fmt.Println("** Basic Usage")
+
 	// Create an empty map such that keys would be string and values int
 	m := make(map[string]int)
 
@@ -55,4 +73,18 @@ func main() {
 		"bar": 2,
 	}
 	fmt.Println("nn:", nn)
+}
+
+func getByKeyUsage() {
+	fmt.Println("** getByKey() Usage")
+	fmt.Println(getByKey(1))
+	fmt.Println(getByKey(2))
+}
+
+func main() {
+	fmt.Println("*** Maps Example")
+
+	basicUsage()
+	fmt.Println()
+	getByKeyUsage()
 }
