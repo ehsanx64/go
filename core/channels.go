@@ -53,23 +53,46 @@ func demoChannelBuffering() {
 ** waiting for multiple goroutines, a WaitGroup may be the preferred solution.
  */
 func demoChannelSynchronization() {
+	workers := []t_worker{
+		{
+			Name:     "first",
+			Interval: 4,
+		},
+		{
+			Name:     "second",
+			Interval: 1,
+		},
+	}
+
 	// Run the worker in a goroutine giving it the channel to notify back
-	done := make(chan bool, 1)
-	go worker(done)
+	done := make(chan bool, len(workers))
+
+	for _, w := range workers {
+		go worker(w.Name, done, w.Interval)
+	}
 
 	// This blocks until we receive a message on the channel (from the worker)
 	// If this line removed program would terminate even before worker's start
-	<-done
+	for i := range workers {
+		<-done
+		fmt.Printf("Completion signal: %d\n", i)
+	}
+
 	fmt.Println("Quitting ...")
+}
+
+type t_worker struct {
+	Name     string
+	Interval int
 }
 
 // This function will be used in a goroutine. The done channel will be used to
 // notifity the other goroutine that this function execution is done
-func worker(done chan bool) {
+func worker(name string, done chan bool, interval int) {
 	// Let's pretend the working process takes 2 seconds
-	fmt.Println("Working ...")
-	time.Sleep(time.Second * 2)
-	fmt.Println("Done!")
+	fmt.Println(name + " working ...")
+	time.Sleep(time.Second * time.Duration(int64(interval)))
+	fmt.Println(name + " done!")
 
 	// Send the signal
 	done <- true
@@ -182,13 +205,13 @@ func pong(pings <-chan string, pongs chan<- string) {
 
 func main() {
 	// Basic channel usage
-	//demoBasic()
+	// demoBasic()
 
 	// Buffered channel demo
-	//demoChannelBuffering()
+	// demoChannelBuffering()
 
 	// Channel synchronization demo
-	//demoChannelSynchronization()
+	demoChannelSynchronization()
 
 	// Channel directions demo
 	//demoChannelDirections()
@@ -197,5 +220,5 @@ func main() {
 	//demoTimeout()
 
 	// Non-blocking demo
-	demoNonblockingOps()
+	// demoNonblockingOps()
 }
