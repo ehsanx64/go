@@ -1,4 +1,2 @@
-github.com/ehsanx64/go-tools/greeter v0.0.0-20230623201554-52a09b39987d h1:w2lUQIJepXaMKCsdQ31IL4qK5tP50+uWHuRah/K5B8E=
-github.com/ehsanx64/go-tools/greeter v0.0.0-20230623201554-52a09b39987d/go.mod h1:LQrR9esy13CsPVQQx67k00CWTXtF5Hj0Fd565Hm8wx0=
-github.com/ehsanx64/go-tools/greeter v0.0.0-20230704175136-901fc37110b3 h1:wl86Za56htb3WlCyxDFlMk5p7k07nwmVuk2xK+7RY64=
-github.com/ehsanx64/go-tools/greeter v0.0.0-20230704175136-901fc37110b3/go.mod h1:LQrR9esy13CsPVQQx67k00CWTXtF5Hj0Fd565Hm8wx0=
+github.com/ehsanx64/go/greeter v0.0.0-20250424153245-1e3bb1f13ab8 h1:y7MrLP9+kGGz29EC51QxbKAPp8aC2QmJAZXiaAbVi0A=
+github.com/ehsanx64/go/greeter v0.0.0-20250424153245-1e3bb1f13ab8/go.mod h1:moS307gP4Q5clfk79KLpsrJRTzaiul6EclG0R2WTYxM=

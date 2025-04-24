@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/ehsanx64/go-tools/greeter"
+	"github.com/ehsanx64/go/greeter"
 )
 
 func main() {
