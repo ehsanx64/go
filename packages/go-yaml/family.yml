@@ -1,0 +1,28 @@
+name: First Not Best
+count: 4
+persons:
+  - name: Adam
+    age: 40
+    numbers: [1, 2, 10, 13]
+    children:
+      - name: Cain
+        age: -40
+        numbers: [6, 6, 6]
+        children: []
+      - name: Abel
+        age: 0
+        numbers: [9223372036854775807, 127, 32767]
+        children: []
+  - name: Eve
+    age: 30
+    numbers: [6, 9]
+    children:
+      - name: Cain
+        age: -40
+        numbers: [6, 6, 6]
+        children: []
+      - name: Abel
+        age: 0
+        numbers: [9223372036854775807, 127, 32767]
+        children: []
+date: 2026-03-05_035749
