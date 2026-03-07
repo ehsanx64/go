@@ -15,7 +15,7 @@ function App() {
 
     return (
         <div id="App">
-            <img src={logo} id="logo" alt="logo"/>
+            <img style={{maxWidth: '400px'}} src={logo} id="logo" alt="logo"/>
             <div id="result" className="result">{resultText}</div>
             <div id="input" className="input-box">
                 <input id="name" className="input" onChange={updateName} autoComplete="off" name="input" type="text"/>
